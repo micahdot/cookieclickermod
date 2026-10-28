@@ -24,41 +24,6 @@ You need an internet connection for the song. If it cannot load, the
 alarm falls back to a 3-note chime so you are not left in silence.
 
 
-DIFFERENT SONG: TYPE __andrew
-------------------------------
-By default the alarm plays rickroll.mp3. After loading the alarm, you
-can type this in the same console:
-
-   __andrew
-
-(no parentheses needed) and it switches to waterfall.mp3 for the rest
-of the session. The sound changes immediately if a cookie is already
-on screen, and every later cookie uses waterfall.mp3 too.
-
-The waterfall track lives at
-
-   https://xplodebrainz.com/cookie/waterfall.mp3
-
-If that copy cannot load, the alarm tries the GitHub copy automatically:
-
-   https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/waterfall.mp3
-
-If neither works, it warns once and goes back to rickroll.mp3. The
-default rickroll.mp3 is mirrored in the repository too, if you would
-rather not depend on xplodebrainz.com:
-
-   https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/rickroll.mp3
-
-   __andrew()      also works, if you like parentheses
-   __andrew        type it again and it just says it is already on
-
-If waterfall.mp3 cannot load, the alarm warns once and goes back to
-rickroll.mp3 automatically, so you are never left without a song.
-
-Refreshing the page resets it: paste the alarm again and it is back to
-rickroll.mp3 unless you type __andrew again.
-
-
 QUICK CHECKLIST
 ---------------
 Print this or keep it open while setting up. Tick each line.
@@ -79,8 +44,6 @@ Print this or keep it open while setting up. Tick each line.
   [ ] 6. Clicked once anywhere on the game page (unlocks sound)
 
   [ ] 7. Tested the sound: pasted  __goldenAlarmTest()  and heard the song
-
-  [ ] 7b. (optional) Typed  __andrew  and heard waterfall.mp3 instead
 
   [ ] 8. Tested detection with a spawned cookie (see TESTING IT WITHOUT
           WAITING) or a real one - song started, and stopped on click
@@ -330,12 +293,7 @@ The song does not play, but I hear a beep?
   loads there, refresh the game and paste the code again.
 
 I want a different song?
-  Easiest: type __andrew after loading to switch to waterfall.mp3
-  (see "DIFFERENT SONG" above). It goes back to rickroll.mp3 on the
-  next refresh.
-
-  To use a song of your own, open this file, find the lines near the
-  top of the code that say
+  Open this file, find the lines near the top of the code that say
       const RICKROLL_URL  = "https://xplodebrainz.com/cookie/rickroll.mp3";
       const WATERFALL_URL = "https://xplodebrainz.com/cookie/waterfall.mp3";
       let   SOUND_URL     = RICKROLL_URL;
@@ -714,6 +672,7 @@ Beeps or song are late, or only fire once a minute?
   );
 })();
 ========================= END OF CODE =========================
+
 
 
 
