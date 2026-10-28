@@ -67,11 +67,14 @@ After a refresh:
 
 SHORTER OPTION (IF THE SCRIPT IS HOSTED)
 ----------------------------------------
-If the alarm script is uploaded to the website, the paste becomes one
-line. Upload alarm.js to xplodebrainz.com (for example as
-https://xplodebrainz.com/cookie/alarm.js), then this is the whole paste:
+The alarm is hosted in two places. Paste ONE of these lines:
 
    Game.LoadMod('https://xplodebrainz.com/cookie/alarm.js')
+   Game.LoadMod('https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/alarm.js')
+
+The first is the copy on xplodebrainz.com (re-upload alarm.js there to
+update it). The second is the GitHub copy, served by jsDelivr, which
+updates whenever the repository changes. Both are the same mod.
 
 Game.LoadMod is the game's own script loader - it runs the file in the
 page exactly like pasting the code would. Steps 2, 3, 5 and 6 above are
@@ -79,10 +82,6 @@ otherwise unchanged.
 
 (On a site that puts the game inside a frame, Game.LoadMod is not on the
 outer page. Use the loader line in the COOLMATH GAMES section instead.)
-
-It is also on GitHub, and jsDelivr serves those files as JavaScript:
-
-   Game.LoadMod('https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/alarm.js')
 
 Rules for hosting it:
   - The address MUST start with https://. An http:// script is blocked
@@ -179,9 +178,10 @@ In that case:
     left (it usually says "top"), choose the game frame, then paste.
 
 Hosted version on coolmathgames.com: Game.LoadMod lives inside the
-frame, not on the coolmathgames.com page, so paste this instead:
+frame, not on the coolmathgames.com page, so paste ONE of these instead:
 
    document.body.appendChild(Object.assign(document.createElement('script'),{src:'https://xplodebrainz.com/cookie/alarm.js'}))
+   document.body.appendChild(Object.assign(document.createElement('script'),{src:'https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/alarm.js'}))
 
 The hosted script includes the same frame detection, so it will find
 the game by itself. The bookmarklet version would need the same
@@ -672,6 +672,7 @@ Beeps or song are late, or only fire once a minute?
   );
 })();
 ========================= END OF CODE =========================
+
 
 
 
