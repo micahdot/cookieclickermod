@@ -1,0 +1,719 @@
+================================================================
+ GOLDEN COOKIE ALARM  -  paste-in-console alert
+ No extension. No install. Works on the official site, localhost,
+ coolmathgames.com, and other sites that host the game.
+================================================================
+
+WHAT IT DOES
+------------
+Loops the song
+
+   https://xplodebrainz.com/cookie/rickroll.mp3
+
+for as long as a golden cookie, wrath cookie, or reindeer is on screen.
+The moment the cookie is clicked (or expires, about 13 seconds), the
+song stops and rewinds, ready for the next one. If you allow it, it
+also shows a desktop notification.
+
+It also plays a tone you cannot hear, which stops the browser from
+slowing the game down while you are on another tab (details below).
+
+It does NOT touch your save, your cookies, or your score.
+
+You need an internet connection for the song. If it cannot load, the
+alarm falls back to a 3-note chime so you are not left in silence.
+
+
+DIFFERENT SONG: TYPE __andrew
+------------------------------
+By default the alarm plays rickroll.mp3. After loading the alarm, you
+can type this in the same console:
+
+   __andrew
+
+(no parentheses needed) and it switches to waterfall.mp3 for the rest
+of the session. The sound changes immediately if a cookie is already
+on screen, and every later cookie uses waterfall.mp3 too.
+
+The waterfall track lives at
+
+   https://xplodebrainz.com/cookie/waterfall.mp3
+
+If that copy cannot load, the alarm tries the GitHub copy automatically:
+
+   https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/waterfall.mp3
+
+If neither works, it warns once and goes back to rickroll.mp3. The
+default rickroll.mp3 is mirrored in the repository too, if you would
+rather not depend on xplodebrainz.com:
+
+   https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/rickroll.mp3
+
+   __andrew()      also works, if you like parentheses
+   __andrew        type it again and it just says it is already on
+
+If waterfall.mp3 cannot load, the alarm warns once and goes back to
+rickroll.mp3 automatically, so you are never left without a song.
+
+Refreshing the page resets it: paste the alarm again and it is back to
+rickroll.mp3 unless you type __andrew again.
+
+
+QUICK CHECKLIST
+---------------
+Print this or keep it open while setting up. Tick each line.
+
+  [ ] 1. Game is open in the browser (official site, localhost,
+         coolmathgames.com, or wherever you play it)
+
+  [ ] 2. Developer tools are open on the Console tab (F12 -> Console)
+
+  [ ] 3. Chrome/Edge/Brave: typed  allow pasting  and pressed Enter
+         (Firefox: not needed)
+
+  [ ] 4. Pasted the code (the full block from below, or the one-line
+         Game.LoadMod version from "SHORTER OPTION") and pressed Enter
+
+  [ ] 5. Console shows:  [Golden Alarm] on - Loops the song while ...
+
+  [ ] 6. Clicked once anywhere on the game page (unlocks sound)
+
+  [ ] 7. Tested the sound: pasted  __goldenAlarmTest()  and heard the song
+
+  [ ] 7b. (optional) Typed  __andrew  and heard waterfall.mp3 instead
+
+  [ ] 8. Tested detection with a spawned cookie (see TESTING IT WITHOUT
+          WAITING) or a real one - song started, and stopped on click
+
+  [ ] 9. Notification allowed, if wanted (a popup asks on that first click)
+
+  [ ] 10. Game tab stays open (minimized is fine, closed is not)
+
+  [ ] 11. The game tab shows a small SPEAKER icon
+          (that silent tone is what stops Chrome slowing the tab down;
+          do not mute the tab or the icon and the protection go away)
+
+Before you walk away:
+  [ ] 12. Alarm is still on (the console line is still there after a
+          cookie came and went)
+  [ ] 13. You know the off switch:  __goldenAlarmStop()
+
+After a refresh:
+  [ ] 14. Paste the code again - refreshing always turns it off
+
+
+SHORTER OPTION (IF THE SCRIPT IS HOSTED)
+----------------------------------------
+If the alarm script is uploaded to the website, the paste becomes one
+line. Upload alarm.js to xplodebrainz.com (for example as
+https://xplodebrainz.com/cookie/alarm.js), then this is the whole paste:
+
+   Game.LoadMod('https://xplodebrainz.com/cookie/alarm.js')
+
+Game.LoadMod is the game's own script loader - it runs the file in the
+page exactly like pasting the code would. Steps 2, 3, 5 and 6 above are
+otherwise unchanged.
+
+(On a site that puts the game inside a frame, Game.LoadMod is not on the
+outer page. Use the loader line in the COOLMATH GAMES section instead.)
+
+It is also on GitHub, and jsDelivr serves those files as JavaScript:
+
+   Game.LoadMod('https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/alarm.js')
+
+Rules for hosting it:
+  - The address MUST start with https://. An http:// script is blocked
+    on the https game as "mixed content".
+  - The server has to send it as JavaScript. If Chrome says "Refused to
+    execute script ... MIME type ('text/plain')", add this line to the
+    .htaccess file in that folder:
+         AddType application/javascript .js
+  - Browsers cache scripts. After you update alarm.js, either rename it
+    or have friends press Ctrl-F5 before pasting again.
+
+Even shorter to re-use after a refresh - make it a bookmark:
+  - Open the bookmark manager, add a new bookmark
+  - Name: Golden Alarm
+  - URL:  javascript:(function(){Game.LoadMod('https://xplodebrainz.com/cookie/alarm.js');}());
+  - After each refresh, click the bookmark instead of pasting anything.
+
+The same bookmarklet using the GitHub copy:
+
+   javascript:(function(){Game.LoadMod('https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/alarm.js');}());
+
+(Type that javascript: address into the bookmark manager, not the
+address bar - Chrome strips the "javascript:" prefix when pasted there.)
+
+
+TESTING IT WITHOUT WAITING
+--------------------------
+Don't wait 5-15 minutes for a real cookie. In the console, on the game
+page (not the coolmathgames.com wrapper - see that section), run:
+
+   new Game.shimmer('golden', {noWrath: true})
+
+A golden cookie appears on the screen, and the song should start. Click
+it on screen and the song should stop. To do it all from the keyboard:
+
+   Game.shimmers[Game.shimmers.length - 1].pop()
+
+That counts as clicking it, so the game gives you its normal reward
+(a random golden cookie buff). If you want it gone without touching
+your buffs, remove it quietly instead:
+
+   Game.shimmers[Game.shimmers.length - 1].die()
+
+Other things to spawn:
+
+   new Game.shimmer('golden', {wrath: true})   a wrath cookie
+   new Game.shimmer('reindeer')                a reindeer
+   Game.killShimmers()                         remove all of them
+
+To make the game spawn real ones quickly (no clicking), run:
+
+   Game.shimmerTypes.golden.minTime = 5;
+   Game.shimmerTypes.golden.maxTime = 10;
+   Game.shimmerTypes.golden.time = 0;
+   Game.shimmerTypes.golden.spawned = 0;
+
+The golden cookie timer is measured in logic frames (30 per second), so
+this gives you one roughly every few seconds. Refresh the page to
+restore the normal timing.
+
+On coolmathgames.com, run the spawn command inside the game frame:
+
+   document.querySelector('#html5game').contentWindow.eval("new Game.shimmer('golden',{noWrath:true})")
+
+(or just open https://www.coolmathgames.com/0-cookie-clicker/play and
+paste the normal command there.)
+
+
+COOLMATH GAMES (AND OTHER SITES WITH THE GAME IN A FRAME)
+---------------------------------------------------------
+coolmathgames.com puts Cookie Clicker inside a frame on its page:
+
+   https://www.coolmathgames.com/0-cookie-clicker
+
+The game itself lives at
+
+   https://www.coolmathgames.com/0-cookie-clicker/play
+
+and because that frame is on the same domain as the page, this code can
+reach into it. It looks for the game automatically, so you can paste it
+into the console of the coolmathgames.com tab exactly as described
+above. Nothing extra to do. (The game there is v2.058, same structure.)
+
+If a site ever puts the game on a different domain, the page cannot
+reach the frame and you will see this warning after about 10 seconds:
+
+   [Golden Alarm] cannot see the game on this page ...
+
+In that case:
+  - Easiest: open the game's own address in its own tab and paste
+    there. For coolmathgames.com that is:
+       https://www.coolmathgames.com/0-cookie-clicker/play
+  - Or, in the DevTools Console, use the context dropdown at the top
+    left (it usually says "top"), choose the game frame, then paste.
+
+Hosted version on coolmathgames.com: Game.LoadMod lives inside the
+frame, not on the coolmathgames.com page, so paste this instead:
+
+   document.body.appendChild(Object.assign(document.createElement('script'),{src:'https://xplodebrainz.com/cookie/alarm.js'}))
+
+The hosted script includes the same frame detection, so it will find
+the game by itself. The bookmarklet version would need the same
+address in place of Game.LoadMod(...) for that site.
+
+One catch: the frame-detection only works while the game is on the same
+domain as the page. If it stops working after a site redesign, fall
+back to opening the game's own address directly.
+
+
+HOW TO USE IT
+-------------
+1. Open Cookie Clicker in your browser:
+      https://orteil.dashnet.org/cookieclicker/
+
+2. Press F12 to open the developer tools, then click the "Console" tab.
+   (Or right-click the page -> Inspect -> Console.)
+
+3. Chrome / Edge / Brave / Opera:
+   the console blocks pasting until you allow it. Click into the
+   console, type this word, and press Enter:
+
+      allow pasting
+
+   Firefox does not have this restriction - skip this step there.
+
+4. Copy everything between the two CUT HERE lines below, paste it into
+   the console, and press Enter.
+
+5. Click anywhere on the game page once. Browsers block sound until you
+   interact with the page; that first click arms the alarm.
+
+You should see this in the console:
+   [Golden Alarm] on - Loops the song while a cookie is up...
+
+Want to hear it right away instead of waiting for a cookie? Paste this:
+
+   __goldenAlarmTest()
+
+(That plays the song once. It keeps looping until a cookie appears and
+then disappears, or until you run __goldenAlarmStop().)
+
+
+TURNING IT OFF
+--------------
+Type this in the console and press Enter:
+
+   __goldenAlarmStop()
+
+
+WILL IT WORK IF I'M ON ANOTHER TAB?
+-----------------------------------
+Yes, with a workaround built in. This game has no background music, so
+a hidden tab counts as silent. Chrome checks hidden, silent tabs about
+once per second for the first 5 minutes, then only once per minute. A
+golden cookie lives 13 seconds, so a late check can miss it - and the
+game itself runs just as slowly, so it never even spawns the cookie at
+the right time.
+
+That is why this alarm plays a tone so quiet you cannot hear it. It is
+60 Hz at about -66 dB; your speakers are not going to reproduce it.
+But it is real audio, so the browser counts the tab as playing sound,
+and tabs playing sound are never slowed down. Both the alarm and the
+game keep running at full speed while you are on other tabs.
+
+How to confirm it is working:
+  - Look at the game's TAB. There should be a small speaker icon on it,
+    meaning the tab is playing audio. Speaker icon = no throttling.
+  - No speaker icon? Click the game page once (step 6) so the browser
+    allows audio, then check again.
+  - Keep the game tab OPEN. Minimizing the window is fine.
+  - Do not mute the tab. Muting removes the speaker icon and brings the
+    throttling back.
+
+If you would rather not use the tone, set KEEP_ALIVE = false in the
+code and keep the game window visible instead (its own small window,
+not a background tab).
+
+Plan B if there is no speaker icon and you cannot get one:
+  - Give the game its own small window instead of a background tab.
+    A visible tab is never throttled.
+  - Or turn the throttling off for that browser: go to
+    chrome://flags (or edge://flags), search for "intensive", set
+    "Intensive wake up throttling" to Disabled, then restart the
+    browser. If your version no longer has that flag, use the window.
+
+
+IMPORTANT
+---------
+- Needs an internet connection for the song (it streams the mp3).
+- Refreshing the page turns it off. Paste it again after each refresh.
+- The tab must be open. A page cannot ring you if it is closed.
+- Sound follows the tab's mute button and your system volume.
+- Nothing is saved. There is nothing to uninstall - just refresh.
+
+
+TROUBLESHOOTING
+---------------
+No sound at all?
+  Click the page once, then wait for a cookie. Browsers keep audio
+  locked until the page has been clicked. Also check the tab is not
+  muted (right-click the tab -> Unmute site) and that Windows is not
+  in Focus Assist / Do Not Disturb.
+
+The song does not play, but I hear a beep?
+  The beep is the fallback. It means the mp3 could not load: no internet,
+  the site was blocked by an ad blocker, or the file moved. Open
+  https://xplodebrainz.com/cookie/rickroll.mp3 in a tab to check. If it
+  loads there, refresh the game and paste the code again.
+
+I want a different song?
+  Easiest: type __andrew after loading to switch to waterfall.mp3
+  (see "DIFFERENT SONG" above). It goes back to rickroll.mp3 on the
+  next refresh.
+
+  To use a song of your own, open this file, find the lines near the
+  top of the code that say
+      const RICKROLL_URL  = "https://xplodebrainz.com/cookie/rickroll.mp3";
+      const WATERFALL_URL = "https://xplodebrainz.com/cookie/waterfall.mp3";
+      let   SOUND_URL     = RICKROLL_URL;
+  and point RICKROLL_URL (or WATERFALL_URL) at another mp3. It MUST
+  start with https:// or the browser will refuse it on the live game
+  (mixed content). Also
+     const SOUND_VOLUME = 0.70;   0 = silent, 1 = full blast
+  and set SOUND_LOOP = false if you want it to play once instead of
+  looping until the cookie disappears.
+
+The song keeps playing after the cookie is gone?
+  It should stop within a quarter second. Make sure you only pasted the
+  code once - pasting twice is handled, but a stale copy from an older
+  version of this file is not. Run __goldenAlarmStop() and paste again.
+
+"allow pasting" doesn't work?
+  Make sure you type it, not paste it, and press Enter afterwards.
+  Some Firefox versions show a similar warning - click "Allow pasting".
+
+Nothing happens when a cookie spawns?
+  Look for the green "[Golden Alarm] on" line to confirm it is running.
+  If the game was updated, type __goldenAlarmStop() and paste again.
+
+Beeps or song are late, or only fire once a minute?
+  That is hidden-tab throttling. Check for the speaker icon on the game
+  tab - if it is missing, click the game page once, and do not mute the
+  tab. See "WILL IT WORK IF I'M ON ANOTHER TAB?" above.
+
+
+=========================== CUT HERE ===========================
+/*
+ * ======================================================================
+ * GOLDEN COOKIE ALARM — paste-in-console version
+ *
+ * No extension, no install, no files to host. Paste the whole file into
+ * the browser console (F12 -> Console) while the game is open.
+ *
+ * When a golden / wrath cookie or reindeer spawns, it loops the song
+ *   https://xplodebrainz.com/cookie/rickroll.mp3
+ * and stops (and rewinds) the moment the cookie is clicked or expires.
+ *
+ * Type  __andrew  (or __andrew()) after loading to use waterfall.mp3
+ * for the rest of the session instead. Without it, rickroll.mp3 plays.
+ *
+ * Notes:
+ *  - Browsers block audio until you interact with the page. You're
+ *    playing a clicker, so click once after pasting and it's armed.
+ *  - Chrome/Edge block pasting into the console until you type
+ *    "allow pasting" and press Enter.
+ *  - Refreshing the page turns it off. Paste again to re-arm.
+ *  - Turn it off any time with:  __goldenAlarmStop()
+ *
+ * The web game has no background music, so a hidden tab would normally be
+ * throttled to about one timer per minute after 5 minutes. To avoid that,
+ * this plays an inaudible continuous tone: a tab that is producing audio is
+ * exempt from hidden-tab throttling, which keeps both the alarm and the game
+ * running at full speed in the background. Look for the speaker icon on the
+ * game's tab - if it is there, the protection is active.
+ * ======================================================================
+ */
+(() => {
+  if (window.__goldenAlarmStop) {
+    console.log("%c[Golden Alarm] already running", "color:#fa0");
+    return;
+  }
+
+  const RICKROLL_URL   = "https://xplodebrainz.com/cookie/rickroll.mp3";
+  const WATERFALL_URL  = "https://xplodebrainz.com/cookie/waterfall.mp3";
+  const WATERFALL_BACKUP_URL =
+    "https://cdn.jsdelivr.net/gh/micahdot/cookieclickermod@main/waterfall.mp3";
+  let   SOUND_URL      = RICKROLL_URL;   // __andrew switches this to waterfall
+  let   usingWaterfall = false;          // true after __andrew (until a refresh)
+  const SOUND_VOLUME = 0.70;   // 0 .. 1
+  const SOUND_LOOP   = true;   // loop until the cookie is gone
+
+  // Inaudible keep-alive so Chrome does not throttle this hidden tab.
+  const KEEP_ALIVE = true;
+  const KEEP_ALIVE_VOLUME = 0.0005;   // far below hearing, but not silence
+
+  let ctx = null;
+  let keepAlive = null;
+  let song = null;
+  let wasPresent = false;
+
+  // ---- silent keep-alive tone -----------------------------------------
+  function audio() {
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = new AC();
+    }
+    if (ctx.state === "suspended") ctx.resume();   // may need a click first
+    return ctx;
+  }
+
+  // Continuous 60 Hz tone at about -66 dB: inaudible, but never "silent".
+  function startKeepAlive() {
+    if (!KEEP_ALIVE || keepAlive) return;
+    const c = audio();
+    if (!c || c.state !== "running") return;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 60;
+    gain.gain.value = KEEP_ALIVE_VOLUME;
+    osc.connect(gain).connect(c.destination);
+    osc.start();
+    keepAlive = { osc, gain };
+  }
+
+  function stopKeepAlive() {
+    if (!keepAlive) return;
+    try { keepAlive.osc.stop(); } catch (e) {}
+    keepAlive = null;
+  }
+
+  // ---- fallback chime (used only if the mp3 cannot play) ---------------
+  function ping(when, freq, dur, vol) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, when);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(vol, when + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(when);
+    osc.stop(when + dur + 0.05);
+  }
+
+  function chime() {
+    const c = audio();
+    if (!c || c.state !== "running") return;   // not unlocked yet
+    const t = c.currentTime;
+    ping(t,        880, 0.18, 0.30);           // A5
+    ping(t + 0.22, 1175, 0.18, 0.30);          // D6
+    ping(t + 0.44, 1568, 0.45, 0.30);          // G6
+  }
+
+  // ---- the song --------------------------------------------------------
+  function getSong() {
+    if (song) return song;
+    song = new Audio(SOUND_URL);
+    song.loop = SOUND_LOOP;
+    song.volume = SOUND_VOLUME;
+    song.preload = "auto";
+    song.addEventListener("error", () => {
+      // If waterfall.mp3 is missing or blocked, try the backup, then rickroll.
+      if (usingWaterfall && SOUND_URL === WATERFALL_URL) {
+        console.warn("[Golden Alarm] could not load waterfall.mp3 from xplodebrainz.com - trying the GitHub copy");
+        switchSong(WATERFALL_BACKUP_URL);
+        return;
+      }
+      if (usingWaterfall && SOUND_URL === WATERFALL_BACKUP_URL) {
+        console.warn("[Golden Alarm] could not load waterfall.mp3 anywhere - using rickroll instead");
+        usingWaterfall = false;
+        switchSong(RICKROLL_URL);
+        return;
+      }
+      song.__failed = true;
+      console.warn("[Golden Alarm] could not load " + SOUND_URL + " - using the chime instead");
+    });
+    return song;
+  }
+
+  // Swap the audio source without losing the "a cookie is up" state.
+  function switchSong(url) {
+    if (song && SOUND_URL === url) return;   // already using it
+    SOUND_URL = url;
+
+    if (!song) {
+      getSong();             // preload starts on the new source
+    } else {
+      song.pause();
+      try { song.currentTime = 0; } catch (e) {}
+      song.__failed = false;
+      song.src = url;
+      song.load();
+    }
+
+    // If a cookie is on screen right now, start the new song immediately.
+    if (wasPresent) playSong();
+  }
+
+  // __andrew: use waterfall.mp3 from now on (idempotent).
+  function useWaterfall() {
+    if (usingWaterfall) {
+      console.log("%c[Golden Alarm] already playing waterfall.mp3", "color:#fa0");
+      return;
+    }
+    usingWaterfall = true;
+    switchSong(WATERFALL_URL);
+    console.log("%c[Golden Alarm] song switched to waterfall.mp3", "color:#0ff;font-weight:bold");
+  }
+
+  function playSong() {
+    const a = getSong();
+    if (a.__failed) { chime(); return; }
+    if (!a.paused) return;              // already playing: do not restart
+    const p = a.play();
+    if (p && typeof p.catch === "function") {
+      p.catch((err) => {
+        // Usually means the page has not been clicked yet.
+        console.warn("[Golden Alarm] browser blocked the song (" + (err && err.name) + ") - click the page once; using the chime for now");
+        chime();
+      });
+    }
+  }
+
+  function stopSong() {
+    if (!song) return;
+    if (!song.paused) song.pause();
+    try { song.currentTime = 0; } catch (e) {}
+  }
+
+  // ---- first interaction: unlock audio, keep-alive, notifications ------
+  function arm() {
+    audio();
+    startKeepAlive();
+
+    try {
+      if (window.Notification && Notification.permission === "default") {
+        Notification.requestPermission();
+      }
+    } catch (e) { /* notifications are a bonus, not required */ }
+  }
+  addEventListener("pointerdown", arm, { once: true, capture: true });
+  addEventListener("keydown",     arm, { once: true, capture: true });
+
+  function notify(kind) {
+    try {
+      if (window.Notification && Notification.permission === "granted") {
+        new Notification(
+          kind === "reindeer" ? "\uD83E\uDD99 Reindeer!" : "\uD83C\uDF6A Golden cookie!",
+          { body: "Click it \u2014 golden cookies only last 13 seconds.", tag: "golden-cookie" }
+        );
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  // ---- detection -------------------------------------------------------
+  // Some sites (coolmathgames.com, for one) run the game inside a same-origin
+  // iframe. If Game is not on this page, look through the frames for it.
+  let gameWin = null;
+  let warnedNoGame = false;
+  let ticksWithoutGame = 0;
+
+  function armIn(w) {
+    if (!w || w === window || w.__gcaArmed) return;
+    w.__gcaArmed = true;
+    try {
+      w.document.addEventListener("pointerdown", arm, { once: true, capture: true });
+      w.document.addEventListener("keydown", arm, { once: true, capture: true });
+    } catch (e) { /* frame went away */ }
+  }
+
+  function findGameWin() {
+    if (gameWin && gameWin.Game && Array.isArray(gameWin.Game.shimmers)) return gameWin;
+    gameWin = null;
+
+    if (typeof Game !== "undefined" && Array.isArray(Game.shimmers)) {
+      gameWin = window;
+      return gameWin;
+    }
+
+    const frames = document.querySelectorAll("iframe");
+    for (const frame of frames) {
+      try {
+        const w = frame.contentWindow;
+        if (w && w.Game && Array.isArray(w.Game.shimmers)) {
+          gameWin = w;
+          armIn(w);
+          return gameWin;
+        }
+      } catch (e) {
+        // Cross-origin frame: out of reach from here.
+      }
+    }
+    return null;
+  }
+
+  function findCookie() {
+    const w = gameWin;
+    if (w && w.Game && Array.isArray(w.Game.shimmers)) {
+      // Preferred: the game's own list of active shimmers.
+      for (const s of w.Game.shimmers) {
+        if (s.type === "golden" || s.type === "reindeer") return s;
+      }
+      return null;
+    }
+    // Fallback: the DOM (works even if the game hasn't exposed shimmers yet).
+    try {
+      return w && w.document ? w.document.querySelector("#shimmers .shimmer") : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function tick() {
+    startKeepAlive();   // no-op if already running / not armed yet
+    const found = findGameWin() !== null;
+
+    if (!found) {
+      if (++ticksWithoutGame > 40 && !warnedNoGame) {
+        warnedNoGame = true;
+        const frames = document.querySelectorAll("iframe").length;
+        console.warn(
+          "[Golden Alarm] cannot see the game on this page" +
+          (frames ? " (it is inside " + frames + " iframe(s) I cannot reach)" : "") +
+          ". On coolmathgames.com, open https://www.coolmathgames.com/0-cookie-clicker/play" +
+          " in its own tab and paste there, or pick the game frame in the DevTools console context menu."
+        );
+      }
+      return;
+    }
+    ticksWithoutGame = 0;
+
+    const cookie = findCookie();
+
+    if (!cookie) {
+      // Cookie clicked or expired: cut the song and rewind it.
+      if (wasPresent) {
+        wasPresent = false;
+        stopSong();
+      }
+      return;
+    }
+
+    if (!wasPresent) {
+      wasPresent = true;
+      notify(cookie.type === "reindeer" ? "reindeer" : "golden");
+      playSong();
+    }
+  }
+
+  // Start fetching the song now so the first cookie is not delayed.
+  getSong();
+
+  const timer = setInterval(tick, 250);
+
+  // ---- cleanup ---------------------------------------------------------
+  window.__goldenAlarmStop = function () {
+    clearInterval(timer);
+    removeEventListener("pointerdown", arm, true);
+    removeEventListener("keydown", arm, true);
+    stopSong();
+    stopKeepAlive();
+    if (ctx) { try { ctx.close(); } catch (e) {} }
+    delete window.__goldenAlarmStop;
+    delete window.__goldenAlarmTest;
+    delete window.__andrew;
+    console.log("%c[Golden Alarm] off", "color:#f55");
+  };
+
+  // Paste __goldenAlarmTest() to hear the song without waiting for a cookie.
+  window.__goldenAlarmTest = playSong;
+
+  // Type __andrew (no parentheses needed) to use waterfall.mp3 instead.
+  // The getter fires on evaluation, and also returns the function so
+  // __andrew() works too. It is configurable so cleanup can delete it.
+  Object.defineProperty(window, "__andrew", {
+    configurable: true,
+    get() {
+      useWaterfall();
+      return useWaterfall;
+    },
+  });
+
+  console.log(
+    "%c[Golden Alarm] on %c " +
+      "Loops the song while a cookie is up, stops when it is gone. " +
+      "Click the page once so the browser allows sound. " +
+      "Stop with __goldenAlarmStop()",
+    "color:#0f0;font-weight:bold",
+    "color:#aaa"
+  );
+})();
+========================= END OF CODE =========================
+
+
+
